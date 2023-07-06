@@ -11,7 +11,27 @@ var questions = [
         question: "How many options can a Boolean have?", 
         options: ["1", "2", "3", "4"], 
         answer: "2" 
-    }
+    },
+    { 
+        question: "The condition in an if / else statement is enclosed with ____.", 
+        options: ["Quotes", "Curly brackets", "Parentheses", "Square brackets"], 
+        answer: "Parentheses" 
+    },
+    { 
+        question: "Arrays in JavaScript can be used to store ____.", 
+        options: ["Numbers and strings", "Other arrays", "Booleans", "All of the above"], 
+        answer: "All of the above" 
+    },
+    { 
+        question: "String values must be enclosed within ____ when being assigned to variables.", 
+        options: ["Commas", "Curly brackets", "Quotes", "Parentheses"], 
+        answer: "Quotes" 
+    },
+    { 
+        question: "What is a useful tool for following code/debugging?", 
+        options: ["CSS", "Terminal.Bash", "For loops", "console.log"],
+        answer: "console.log"
+}
 ];
 
 var currentQuestionIndex = 0;
