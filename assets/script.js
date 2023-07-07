@@ -1,4 +1,5 @@
 document.getElementById("quizButton").addEventListener("click", startQuiz);
+document.getElementById("highScoresButton").addEventListener("click", showHighScores);
 
 var score = 0;
 var timeRemaining = 40;
@@ -36,22 +37,27 @@ var questions = [
         answer: "console.log"
 }
 ];
-
 var currentQuestionIndex = 0;
 
 //function to start the quiz
 function startQuiz() {
     document.getElementById("startQuizParagraph").style.display = "none";
     document.getElementById("quizButton").style.display = "none";
+    timeLeft = 40;
+    startTimer();
+    loadQuestion();
+}
+
+function startTimer() {
+    var timerElement = document.getElementById("timer");
     timerInterval = setInterval(function() {
-        timeRemaining--;
-        document.getElementById("timeRemaining").textContent = timeRemaining;
-        if (timeRemaining <= 0) {
+        timeLeft--;
+        timerElement.textContent = "Time: " + timeLeft;
+        if(timeLeft <= 0) {
             clearInterval(timerInterval);
             showScore();
         }
     }, 1000);
-    loadQuestion();
 }
 
 function clearQuizContainer() {
@@ -88,7 +94,7 @@ function checkAnswer(event) {
         resultElement.textContent = "Correct!";
     } else {
         score -= 5;
-        timeRemaining -= 5;
+        timeLeft -= 5;
         resultElement.textContent = "Incorrect!";
     }
     document.getElementById("quizContainer").appendChild(resultElement);
@@ -102,7 +108,7 @@ function checkAnswer(event) {
     }
 }
 
-//function to show quiz score and restart quiz
+//functions to show quiz score and restart quiz
 function showScore() {
     clearInterval(timerInterval);
     clearQuizContainer();
@@ -110,22 +116,65 @@ function showScore() {
     var scoreElement = document.createElement("p");
     scoreElement.textContent = "Your final score is: " + score;
     quizContainer.appendChild(scoreElement);
+
+    var initialsInput = document.createElement("input");
+    initialsInput.setAttribute("placeholder", "Your initials");
+    initialsInput.id = "initials";
+    quizContainer.appendChild(initialsInput);
+
+    var submitScoreButton = document.createElement("button");
+    submitScoreButton.textContent = "Submit Score";
+    submitScoreButton.addEventListener("click", saveHighScore);
+    quizContainer.appendChild(submitScoreButton);
+
     var goBackButton = document.createElement("button");
     goBackButton.textContent = "Go back";
     goBackButton.addEventListener("click", restartQuiz);
     quizContainer.appendChild(goBackButton);
 }
 
+function saveHighScore() {
+    var initials = document.getElementById("initials").value;
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    var newScore = {
+        score: score,
+        initials: initials
+    };
+    highScores.push(newScore);
+    highScores.sort((a, b) => b.score - a.score);
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    showHighScores();
+}
+
+function showHighScores() {
+    clearQuizContainer();
+    document.getElementById("highScoresButton").style.display = "block";  // Show the "View High Scores" button.
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    var quizContainer = document.getElementById("quizContainer");
+
+    highScores.forEach(function(score) {
+        var p = document.createElement("p");
+        p.textContent = score.initials + ": " + score.score;
+        quizContainer.appendChild(p);
+    });
+
+    var goBackButton = document.createElement("button");
+    goBackButton.textContent = "Go back";
+    goBackButton.addEventListener("click", restartQuiz);
+    quizContainer.appendChild(goBackButton);
+}
+//functions to show quiz score and restart quiz END
+
 //function to restart the quiz when completed or when time runs out
 function restartQuiz() {
     clearQuizContainer();
     score = 0;
-    timeRemaining = 40;
+    timeLeft = 40;
     currentQuestionIndex = 0;
-    document.getElementById("timeRemaining").textContent = timeRemaining; // Update timer display
+    document.getElementById("timer").textContent = "Time: " + timeLeft; // Update timer display
     var quizContainer = document.getElementById("quizContainer");
     var startQuizParagraph = document.createElement("p");
-    startQuizParagraph.textContent = "Start the quiz here";
+    startQuizParagraph.textContent = "Answer the following JavaScript related questions, every time you get a question right you will given 10 points and if you answer a question wrong you get 5 points deducted and 5 seconds taken off the clock.";
     startQuizParagraph.id = "startQuizParagraph";
     quizContainer.appendChild(startQuizParagraph);
     var startQuizButton = document.createElement("button");

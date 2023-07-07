@@ -10,6 +10,13 @@ header {
     background-color: #f0f0f0;
 }
 
+/* Center the quiz start paragraph */
+#startQuizParagraph {
+    width: 60%; /* Adjust this to fit your design */
+    margin: 0 auto; /* This will center the paragraph */
+    text-align: center;
+}
+
 .high-scores {
     margin-left: 10px;
 }
@@ -29,6 +36,13 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+}
+
+/* Make answer buttons evenly sized */
+#quizContainer button {
+    width: 200px; /* Set a fixed width */
+    display: block; /* Make the buttons stack vertically */
+    margin: 10px auto; /* Center the buttons and add some vertical space between them */
 }
 
 .button-container {
