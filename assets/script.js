@@ -115,7 +115,7 @@ function checkAnswer(event) {
 function showScore() {
     clearInterval(timerInterval);
     clearQuizContainer();
-    document.getElementById("timer").textContent = "Time: " + timeLeft;
+    document.getElementById("timer").textContent = timeLeft;
     var quizContainer = document.getElementById("quizContainer");
     var scoreElement = document.createElement("p");
     scoreElement.textContent = "Your final score is: " + score;
@@ -181,7 +181,7 @@ function restartQuiz() {
     score = 0;
     timeLeft = 40;
     currentQuestionIndex = 0;
-    document.getElementById("timer").textContent = "Time: " + timeLeft;
+    document.getElementById("timer").textContent = timeLeft;
     var quizContainer = document.getElementById("quizContainer");
     var startQuizParagraph = document.createElement("p");
     startQuizParagraph.textContent = "Answer the following JavaScript related questions, every time you get a question right you will given 10 points and if you answer a question wrong you get 5 points deducted and 5 seconds taken off the clock.";
