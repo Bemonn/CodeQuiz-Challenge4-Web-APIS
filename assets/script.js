@@ -44,15 +44,17 @@ function startQuiz() {
     document.getElementById("startQuizParagraph").style.display = "none";
     document.getElementById("quizButton").style.display = "none";
     timeLeft = 40;
+    document.getElementById("timer").textContent = timeLeft;
     startTimer();
     loadQuestion();
 }
 
+//function to start timer
 function startTimer() {
     var timerElement = document.getElementById("timer");
     timerInterval = setInterval(function() {
         timeLeft--;
-        timerElement.textContent = "Time: " + timeLeft;
+        timerElement.textContent = timeLeft;
         if(timeLeft <= 0) {
             clearInterval(timerInterval);
             showScore();
@@ -81,9 +83,10 @@ function loadQuestion() {
     for (var i = 0; i < options.length; i++) {
         var optionElement = document.createElement("button");
         optionElement.textContent = options[i];
+        optionElement.classList.add('answer-button');
         optionElement.addEventListener("click", checkAnswer);
         quizContainer.appendChild(optionElement);
-    }
+      }
 }
 
 //function to check answers and give correct/incorrect dependant on answer
@@ -112,6 +115,7 @@ function checkAnswer(event) {
 function showScore() {
     clearInterval(timerInterval);
     clearQuizContainer();
+    document.getElementById("timer").textContent = "Time: " + timeLeft;
     var quizContainer = document.getElementById("quizContainer");
     var scoreElement = document.createElement("p");
     scoreElement.textContent = "Your final score is: " + score;
@@ -147,8 +151,13 @@ function saveHighScore() {
 }
 
 function showHighScores() {
+    var backButtonExists = document.getElementById("goBackButton") !== null;
+    if (backButtonExists) {
+        return;
+    }
+    
     clearQuizContainer();
-    document.getElementById("highScoresButton").style.display = "block";  // Show the "View High Scores" button.
+    document.getElementById("highScoresButton").style.display = "block";
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     var quizContainer = document.getElementById("quizContainer");
 
@@ -160,6 +169,7 @@ function showHighScores() {
 
     var goBackButton = document.createElement("button");
     goBackButton.textContent = "Go back";
+    goBackButton.id = "goBackButton";
     goBackButton.addEventListener("click", restartQuiz);
     quizContainer.appendChild(goBackButton);
 }
@@ -171,7 +181,7 @@ function restartQuiz() {
     score = 0;
     timeLeft = 40;
     currentQuestionIndex = 0;
-    document.getElementById("timer").textContent = "Time: " + timeLeft; // Update timer display
+    document.getElementById("timer").textContent = "Time: " + timeLeft;
     var quizContainer = document.getElementById("quizContainer");
     var startQuizParagraph = document.createElement("p");
     startQuizParagraph.textContent = "Answer the following JavaScript related questions, every time you get a question right you will given 10 points and if you answer a question wrong you get 5 points deducted and 5 seconds taken off the clock.";

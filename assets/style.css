@@ -1,3 +1,4 @@
+/* Page styling and layout */
 header {
     position: fixed;
     top: 0;
@@ -10,23 +11,21 @@ header {
     background-color: #f0f0f0;
 }
 
-/* Center the quiz start paragraph */
 #startQuizParagraph {
-    width: 60%; /* Adjust this to fit your design */
-    margin: 0 auto; /* This will center the paragraph */
+    width: 60%; 
+    margin: 0 auto; 
     text-align: center;
 }
 
-.high-scores {
-    margin-left: 10px;
-}
-
+.high-scores,
+.timer,
 .quiz {
-    text-align: center;
+    flex: 1;
 }
 
-.timer {
-    margin-right: 10px;
+h1 {
+    text-align: center;
+    font-family: 'Arial Rounded MT', sans-serif;
 }
 
 body {
@@ -36,13 +35,15 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    font-family: 'Arial Rounded MT', sans-serif;
 }
+/* Page styling and layout END */
 
 /* Make answer buttons evenly sized */
 #quizContainer button {
-    width: 200px; /* Set a fixed width */
-    display: block; /* Make the buttons stack vertically */
-    margin: 10px auto; /* Center the buttons and add some vertical space between them */
+    width: 200px;
+    display: block;
+    margin: 10px auto;
 }
 
 .button-container {
@@ -50,4 +51,19 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 33vh;
+}
+
+/* Button styling */
+#highScoresButton,
+#quizButton,
+button.answer-button {
+  background-color: #17da17;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
