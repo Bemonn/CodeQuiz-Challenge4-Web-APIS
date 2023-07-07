@@ -1,6 +1,9 @@
 document.getElementById("quizButton").addEventListener("click", startQuiz);
 
-var score = 0;  // initialize score to zero
+var score = 0;
+var timeRemaining = 40;
+var timerInterval;
+//quiz questions
 var questions = [
     { 
         question: "Commonly used data types DO NOT INCLUDE:", 
@@ -36,9 +39,18 @@ var questions = [
 
 var currentQuestionIndex = 0;
 
+//function to start the quiz
 function startQuiz() {
     document.getElementById("startQuizParagraph").style.display = "none";
     document.getElementById("quizButton").style.display = "none";
+    timerInterval = setInterval(function() {
+        timeRemaining--;
+        document.getElementById("timeRemaining").textContent = timeRemaining;
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            showScore();
+        }
+    }, 1000);
     loadQuestion();
 }
 
@@ -49,18 +61,17 @@ function clearQuizContainer() {
     }
 }
 
+//add answers/questions to the page
 function loadQuestion() {
     clearQuizContainer();
     var quizContainer = document.getElementById("quizContainer");
     var question = questions[currentQuestionIndex].question;
     var options = questions[currentQuestionIndex].options;
     
-    // add the question to the page
     var questionElement = document.createElement("p");
     questionElement.textContent = question;
     quizContainer.appendChild(questionElement);
     
-    // add the answer options to the page
     for (var i = 0; i < options.length; i++) {
         var optionElement = document.createElement("button");
         optionElement.textContent = options[i];
@@ -69,6 +80,7 @@ function loadQuestion() {
     }
 }
 
+//function to check answers and give correct/incorrect dependant on answer
 function checkAnswer(event) {
     var resultElement = document.createElement("p");
     if (event.target.textContent === questions[currentQuestionIndex].answer) {
@@ -76,20 +88,23 @@ function checkAnswer(event) {
         resultElement.textContent = "Correct!";
     } else {
         score -= 5;
+        timeRemaining -= 5;
         resultElement.textContent = "Incorrect!";
     }
     document.getElementById("quizContainer").appendChild(resultElement);
 
     currentQuestionIndex++;
     
-    if(currentQuestionIndex < questions.length){
+    if(currentQuestionIndex < questions.length && timeRemaining > 0){
         setTimeout(loadQuestion, 1000);
     } else {
         setTimeout(showScore, 1000);
     }
 }
 
+//function to show quiz score and restart quiz
 function showScore() {
+    clearInterval(timerInterval);
     clearQuizContainer();
     var quizContainer = document.getElementById("quizContainer");
     var scoreElement = document.createElement("p");
@@ -101,10 +116,13 @@ function showScore() {
     quizContainer.appendChild(goBackButton);
 }
 
+//function to restart the quiz when completed or when time runs out
 function restartQuiz() {
     clearQuizContainer();
     score = 0;
+    timeRemaining = 40;
     currentQuestionIndex = 0;
+    document.getElementById("timeRemaining").textContent = timeRemaining; // Update timer display
     var quizContainer = document.getElementById("quizContainer");
     var startQuizParagraph = document.createElement("p");
     startQuizParagraph.textContent = "Start the quiz here";
