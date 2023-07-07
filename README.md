@@ -18,7 +18,7 @@
 <h2>License - MIT License<h2>
 <h3>Refer to license to see permissions<h3>
 
-<h2>Website link: https://bemonn.github.io/CodeQuiz-Challenge4-WebAPIs/  
+<h2>Website link: https://bemonn.github.io/CodeQuiz-Challenge4-Web-APIS/   
 <h2>
 
 <h2> JavaScript test in progress <h2>
